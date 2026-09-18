@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 const char key[] = "ThisIsSecureRight?";
-unsigned char edata[124+255] = {
+unsigned char edata[124+256] = {
     0x4c, 0x85, 0x1b, 0xc5,
     0x80, 0xdf, 0xe9, 0xbf,
     0x38, 0x64, 0x2b, 0xc6,
@@ -68,7 +68,7 @@ int main(void){
         edata[0xf8-e] ^= table[r9&0xff];
     }
 
-    for(int i = 0; i < (124+255); i += 4){
+    for(int i = 0; i < (124+256); i += 4){
         printf("%02x %02x %02x %02x  ",
                 edata[i], edata[i+1], edata[i+2], edata[i+3]
         );
@@ -82,7 +82,7 @@ int main(void){
     }
 
     if((fd = open("dec.bin", O_CREAT|O_WRONLY, 0664)) < 0) return -1;
-    wr = write(fd, edata, 124+255);
+    wr = write(fd, edata, 124+256);
     close(fd);
     if(wr > 0) printf("Written %ld bytes to ./dec.bin\n", wr);
 
